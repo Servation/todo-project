@@ -10,7 +10,48 @@
 </head>
 
 <body>
-
+    <div id="content">
+        <div id="title-bar">
+            <h1>To-Do</h1>
+        </div>
+        <div id="side-bar">
+            <div id="all">
+                <h2>All</h2>
+            </div>
+            <div id="projects">
+                <h2>Projects</h2>
+            </div>
+            <a class="addButton" href="#popup1">+</a>
+        </div>
+        <div id="main"></div>
+    </div>
+    <div id="popup1" class="overlay">
+        <div class="popup">
+            <h2>ADD To-Do</h2>
+            <a class="close" href="#">&times;</a>
+            <div id="optionsContent">
+                <input type="text" id="title" placeholder="Title">
+                <textarea id="description" rows="4" cols="50" placeholder="Description"></textarea>
+                <div>
+                    <label for="dueDate">Date:</label>
+                    <input type="date" id="dueDate">
+                </div>
+                <div>
+                    <label for="priority">Priority</label>
+                    <select id="priority">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+                <input list="project" placeholder="Project Name">
+                <datalist id="project">
+                    <option value="None">
+                </datalist><br>
+                <input type="button" id="submitButton" value="ADD">
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

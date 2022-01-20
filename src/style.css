@@ -35,6 +35,9 @@ html {
 }
 
 #main {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
   grid-column-start: 2;
   grid-column-end: end;
   grid-row-start: 2;
@@ -105,6 +108,16 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.singleTodo {
+  background-color: cornflowerblue;
+  height: 250px;
+  width: 350px;
+  margin: 10px;
+  padding: 10px;
+  border: 5px solid azure;
+  border-radius: 10px;
 }
 
 @media screen and (max-width: 700px) {

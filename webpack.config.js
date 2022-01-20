@@ -1,8 +1,10 @@
 const path = require('path');
 
+const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
+
 module.exports = {
     entry: './src/index.js',
-    mode: 'development',
+    mode: mode,
     output: {
         filename: 'main.js',
         path: path.resolve(__dirname, 'dist'),
@@ -18,5 +20,13 @@ module.exports = {
                 type: 'asset/resource',
             },
         ],
+    },
+    devtool: 'inline-source-map',
+    devServer: {
+        static: path.resolve(__dirname, 'dist'),
+        port: 5001,
+        open: true,
+        hot: true,
+
     },
 };

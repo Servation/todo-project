@@ -3,8 +3,11 @@ import Todo from "./todo";
 let todoArr = [];
 let todoProjects = [];
 let TodoCounter = 0;
+let fromEdit = false;
+export let currentObj;
 
-export function addToDoFromEl() {
+export function addToDoFromEl(args) {
+    args = args || {};
     const titleEl = document.getElementById("title");
     const closeEl = document.getElementsByClassName("close");
     let close = closeEl[0];
@@ -14,16 +17,28 @@ export function addToDoFromEl() {
     let project = document.getElementById("project").value;
     let title = titleEl.value;
     let valid = validTitle(title);
-    if (valid) {
+    if (valid && !(fromEdit)) {
         addTodoToArray(title, description, dueDate, priority, project, TodoCounter);
         close.click();
         TodoCounter++;
         titleEl.style.backgroundColor = "white";
+        clearInputs();
+    } else if (valid && fromEdit) {
+        editTodo(title, description, dueDate, priority, project, args);
+        close.click();
     } else {
         titleEl.style.backgroundColor = "pink";
     }
+    fromEdit = false;
 }
 
+function editTodo(title, descrip, date, prio, proj, obj) {
+    obj.title = title;
+    obj.description = descrip;
+    obj.dueDate = date;
+    obj.priority = prio;
+    obj.project = proj;
+}
 function findProjects() {
     let projectArr = [];
     todoArr.forEach(el => {
@@ -101,6 +116,25 @@ function createSingleTodoContent(element) {
         element.toggleComplete();
         showAllTodo();
     })
+    let editButton = document.createElement("button");
+    editButton.textContent = "Edit";
+    editButton.addEventListener("click", () => {
+        fromEdit = true;
+        let addButton = document.getElementById("addButton");
+        addButton.click();
+        let titleInput = document.getElementById("title");
+        let descriptionInput = document.getElementById("description");
+        let dueDateInput = document.getElementById("dueDate");
+        let priorityInput = document.getElementById("priority");
+        let projectInput = document.getElementById("project");
+        titleInput.value = element.title;
+        descriptionInput.value = element.description;
+        dueDateInput.value = element.dueDate;
+        priorityInput.value = element.priority;
+        projectInput.value = element.project;
+        currentObj = element;
+    })
+
     let deleteButton = document.createElement("button");
     deleteButton.textContent = "DELETE";
     deleteButton.addEventListener("click", () => {
@@ -110,6 +144,7 @@ function createSingleTodoContent(element) {
         showAllTodo();
     })
     container.appendChild(createMainContent(title, description, dueDate, prio, project, id))
+    container.appendChild(editButton);
     container.appendChild(completeButton);
     container.appendChild(deleteButton);
     return container
@@ -150,6 +185,14 @@ function showProjects() {
         })
         projectEl.appendChild(projEl)
     })
+}
+
+export function clearInputs() {
+    document.getElementById("title").value = "";
+    document.getElementById("description").value = "";
+    document.getElementById("dueDate").value = "";
+    document.getElementById("priority").value = "Low";
+    document.getElementById("project").value = "";
 }
 
 (() => {

@@ -115,6 +115,7 @@ function createSingleTodoContent(element) {
     completeButton.addEventListener("click", () => {
         element.toggleComplete();
         showAllTodo();
+        refreshLocalStorage();
     })
     let editButton = document.createElement("button");
     editButton.textContent = "Edit";
@@ -142,6 +143,7 @@ function createSingleTodoContent(element) {
             return obj.todoID !== element.todoID;
         });
         showAllTodo();
+        refreshLocalStorage();
     })
     container.appendChild(createMainContent(title, description, dueDate, prio, project, id))
     container.appendChild(editButton);
@@ -187,6 +189,11 @@ function showProjects() {
     })
 }
 
+export function refreshLocalStorage() {
+    localStorage.removeItem("todoArr");
+    localStorage.setItem("todoArr", JSON.stringify(todoArr));
+}
+
 export function clearInputs() {
     document.getElementById("title").value = "";
     document.getElementById("description").value = "";
@@ -196,5 +203,8 @@ export function clearInputs() {
 }
 
 (() => {
-    addTodoToArray("Todo project", "A project from Odin project", "2022-01-19", "Medium", "Odin Project", 1290129);
-})()
+    todoArr = JSON.parse(localStorage.getItem("todoArr") || "[]")
+    if (todoArr.length == 0) {
+        addTodoToArray("Todo project", "A project from Odin project", "2022-01-19", "Medium", "Odin Project", 1290129);
+    }
+})();
